@@ -33,8 +33,7 @@ Digita tu opcion: """
         os.system("pause")
 
 def main():
-    
-    #menu()
+    menu()
 
 if __name__== '__main__':
     main()

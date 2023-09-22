@@ -16,4 +16,4 @@ turtle.bgcolor('green')
 for i in range(2550):
     t.goto(xt(i)*20, yt(i)*20)
     t.pencolor('white')
-    t.goto(0,130)
+    t.goto(0,1230)

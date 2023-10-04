@@ -11,7 +11,11 @@ listNumbers = list()
 
 def addNum():
     num = int(input("Dime un numero: "))
-    listNumbers.append(num)
+    if(isNumber(num)):
+        print(f"El numero {num} ya se encuentra registrado.")
+    else:
+        listNumbers.append(num)
+    os.system("pause")
 
 def showPairs():
     os.system("cls||clear")
@@ -39,13 +43,25 @@ def searchNumber(number):
     else:
         print(f"No se encontro {number}")
 
+def deleteNumber(number):
+    if(isNumber(number)):
+        listNumbers.remove(number)
+        print(f"Se a eliminado el numero: {number} satisfactoriamente")
+    else:
+        print(f"{number} no existe")
+    os.system("pause")
+
+def isNumber(number):
+    return number in listNumbers
+
 def menu():
     print("""1. Agregar 
 2. Mostrar Pares
 3. Mostrar sumas impares
 4. Mostrar lista
 5. Buscar numero
-6. Salir""")
+6. Elininar numero
+0. Salir""")
     option = int(input("Digita la opcion: "))
     if(option == 1):
         addNum()
@@ -60,14 +76,17 @@ def menu():
         searchNumber(number=number)
         os.system("pause")
     elif(option == 6):
+        num = int(input("Dime el numero que deseas eliminar: "))
+        deleteNumber(num)
+    elif(option == 0):
         print("Adios...")
     else:
         print("Opción existe")
     return option
     
 def main():
-    op = 0
-    while op != 6:
+    op = -1
+    while op != 0:
         os.system("cls")
         op = menu()
 

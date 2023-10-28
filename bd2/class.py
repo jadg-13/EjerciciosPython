@@ -11,24 +11,35 @@ class MySQLDatabase:
         self.connection = None
 
     def connect(self):
-        self.connection = mysql.connector.connect(
-            host=self.host,
-            user=self.user,
-            password=self.password,
-            database=self.database,
-        )
+        try:
+            if(self.connection==None):
+                self.connection = mysql.connector.connect(
+                    host=self.host,
+                    user=self.user,
+                    password=self.password,
+                    database=self.database,
+                )
+        except mysql.connector.Error as error:
+            print("Error while connecting to database: {}".format(error))
+
 
     def disconnect(self):
-        if self.connection:
-            self.connection.close()
-            self.connection = None
+        try:
+            if self.connection:
+                self.connection.close()
+                self.connection = None
+        except mysql.connector.Error as error:
+            print("Error while disconnecting from database: {}".format(error))
 
     def execute_query(self, query, params=None):
-        cursor = self.connection.cursor()
-        cursor.execute(query, params)
-        result = cursor.fetchall()
-        cursor.close()
-        return result
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute(query, params)
+            result = cursor.fetchall()
+            cursor.close()
+            return result
+        except mysql.connector.Error as error:
+            print("Error while executing query: {}".format(error))
 
 
 
@@ -37,36 +48,50 @@ class Product:
         self.db = db
 
     def create(self, name, price):
-        query = "INSERT INTO products (name, price) VALUES (%s, %s)"
-        params = (name, price)
-        self.db.execute_query(query, params)
-        
+        try:
+            query = "INSERT INTO products (name, price) VALUES (%s, %s)"
+            params = (name, price)
+            self.db.execute_query(query, params)
+        except mysql.connector.Error as error:
+            print("Error while inserting into database: {}".format(error))
 
 
     def read(self, id=None):
-        if id:
-            query = "SELECT * FROM products WHERE id = %s"
-            params = (id,)
-            result = self.db.execute_query(query, params)
-        else:
-            query = "SELECT * FROM products"
-            result = self.db.execute_query(query)
-        return result
+        try:
+            if id:
+                query = "SELECT * FROM products WHERE id = %s"
+                params = (id,)
+                result = self.db.execute_query(query, params)
+            else:
+                query = "SELECT * FROM products"
+                result = self.db.execute_query(query)
+            return result
+        except mysql.connector.Error as error:
+            print("Error while reading from database: {}".format(error))
 
     def update(self, id, name, price):
-        query = "UPDATE products SET name = %s, price = %s WHERE id = %s"
-        params = (name, price, id)
-        self.db.execute_query(query, params)
+        try:
+            query = "UPDATE products SET name = %s, price = %s WHERE id = %s"
+            params = (name, price, id)
+            self.db.execute_query(query, params)
+        except mysql.connector.Error as error:
+            print("Error while updating database: {}".format(error))
 
     def delete(self, id):
-        query = "DELETE FROM products WHERE id = %s"
-        params = (id,)
-        self.db.execute_query(query, params)
+        try:
+            query = "DELETE FROM products WHERE id = %s"
+            params = (id,)
+            self.db.execute_query(query, params)
+        except mysql.connector.Error as error:
+            print("Error while deleting from database: {}".format(error))
 
     def show_products(self):
-        result = self.read()
-        for row in result:
-            print(row)
+        try:
+            result = self.read()
+            for row in result:
+                print(row)
+        except mysql.connector.Error as error:
+            print("Error while reading from database: {}".format(error))
 
 
 class ProductInteraction:

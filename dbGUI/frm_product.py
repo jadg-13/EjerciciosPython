@@ -75,7 +75,6 @@ class ProductManagementApp:
             form_frame, text="Exportar a PDF", command=self.export_to_pdf
         )
         self.button_export_pdf.grid(row=8, column=0, columnspan=3)
-        
 
         self.label_search.grid(row=0, column=0)
         self.entry_search.grid(row=0, column=1)
@@ -89,9 +88,12 @@ class ProductManagementApp:
             table_frame, columns=("ID", "Name", "Price", "Stock")
         )
         self.product_table.heading("#1", text="ID")
+        self.product_table.column("#1", anchor="e")
         self.product_table.heading("#2", text="Nombre")
         self.product_table.heading("#3", text="Precio")
+        self.product_table.column("#3", anchor="e")
         self.product_table.heading("#4", text="Stock")
+        self.product_table.column("#4", anchor="e")
 
         self.product_table.bind(
             "<ButtonRelease-1>", self.on_table_click
@@ -209,7 +211,9 @@ class ProductManagementApp:
 
         for product in products:
             self.product_table.insert(
-                "", "end", values=(product[0], product[1], product[2], product[3])
+                "",
+                "end",
+                values=(product[0], product[1], product[2], product[3]),
             )
 
     def clear_form(self):

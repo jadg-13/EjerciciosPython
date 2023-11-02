@@ -17,23 +17,32 @@ class DaoConnection:
                 password=self.password,
                 database=self.database
             )
-            self.cursor = self.connection.cursor()  
+            self.cursor = self.connection.cursor()
+            return self.cursor
         except mysql.connector.Error as error:
-            print("Error Conex", error)
-        return self.cursor
+            print("Error al conectar a la base de datos:", error)
+            return None
+
     
     def disconnect(self):
         try:
             self.cursor.close()
-            self.connection.close() 
+            self.connection.close()
         except mysql.connector.Error as error:
-            print(error)
-        return self.cursor
+            print("Error al desconectar de la base de datos:", error)
+        finally:
+            self.cursor = None
+            self.connection = None
+
     
     def execute(self, query, values):
         try:
             self.cursor.execute(query, values)
+            # Verificar si la consulta es de lectura (SELECT)
+            if query.strip().lower().startswith('select'):
+                return self.cursor              
             self.connection.commit()
         except mysql.connector.Error as error:
-            print(error)
-        return self.cursor  
+            print("Error al ejecutar la consulta-> ", error)
+        return self.cursor
+

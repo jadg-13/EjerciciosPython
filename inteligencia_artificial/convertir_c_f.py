@@ -29,6 +29,7 @@ import matplotlib.pyplot as plt
 plt.xlabel("# Epoca")
 plt.ylabel("Magnitud de pérdida")
 plt.plot(historial.history["loss"])
+plt.show()
 
 print("Hagamos una predicción!!!")
 resultado = modelo.predict([50.0])

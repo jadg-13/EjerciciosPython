@@ -10,7 +10,7 @@ Original file is located at
 import tensorflow as tf
 import numpy as np
 
-celcius = np.array([-40, -10, 0, 8, 15, 22, 38], dtype=float)
+celsius = np.array([-40, -10, 0, 8, 15, 22, 38], dtype=float)
 fahrenheit = np.array([-40, 14, 32, 46, 59, 72, 100], dtype = float)
 
 capa = tf.keras.layers.Dense(units = 1, input_shape=[1])
@@ -22,7 +22,7 @@ modelo.compile(
 )
 
 print("Comenzando entrenamiento...")
-historial = modelo.fit(celcius, fahrenheit, epochs=500, verbose=False)
+historial = modelo.fit(celsius, fahrenheit, epochs=500, verbose=False)
 print("Modelo entrenado!")
 
 import matplotlib.pyplot as plt
